@@ -12,3 +12,8 @@ export async function checkUpdate() {
 export async function installUpdate() {
   return call<void>("install_update_and_restart");
 }
+
+/** Tauri's built-in `app` plugin (allowed by `core:default`); the version from tauri.conf.json. */
+export async function getAppVersion() {
+  return call<string>("plugin:app|version");
+}
