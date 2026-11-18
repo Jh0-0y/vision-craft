@@ -1,4 +1,4 @@
-import type { AppError } from '@/shared/api/common.dto';
+import type { AppError } from "@/shared/api/common.dto";
 
 export interface ErrorState {
   /** The last failed action, shown by `ErrorAlert` until dismissed. */

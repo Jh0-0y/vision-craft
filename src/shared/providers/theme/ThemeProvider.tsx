@@ -1,20 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from "@tanstack/react-query";
 
-import type { ThemePref } from '@/domain/settings/apis/settings.dto';
-import { THEME_QUERY_KEY, useThemePref } from '@/domain/settings/queries/settings';
-import { resolveTheme } from '@/utils/theme';
+import type { ThemePref } from "@/domain/settings/apis/settings.dto";
+import {
+  THEME_QUERY_KEY,
+  useThemePref,
+} from "@/domain/settings/queries/settings";
+import { resolveTheme } from "@/utils/theme";
 
-import { listen } from '@tauri-apps/api/event';
+import { listen } from "@tauri-apps/api/event";
 
-const DARK_QUERY = '(prefers-color-scheme: dark)';
+const DARK_QUERY = "(prefers-color-scheme: dark)";
 
 export function applyTheme(pref: ThemePref) {
-  document.documentElement.dataset.theme = resolveTheme(pref, window.matchMedia(DARK_QUERY).matches);
+  document.documentElement.dataset.theme = resolveTheme(
+    pref,
+    window.matchMedia(DARK_QUERY).matches,
+  );
 }
 
-export default function ThemeProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function ThemeProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // hooks
   const queryClient = useQueryClient();
 
@@ -25,20 +33,20 @@ export default function ThemeProvider({ children }: Readonly<{ children: React.R
   useEffect(() => {
     applyTheme(theme);
 
-    if (theme !== 'system') {
+    if (theme !== "system") {
       return;
     }
 
     const media = window.matchMedia(DARK_QUERY);
     const handleChange = () => applyTheme(theme);
-    media.addEventListener('change', handleChange);
+    media.addEventListener("change", handleChange);
 
-    return () => media.removeEventListener('change', handleChange);
+    return () => media.removeEventListener("change", handleChange);
   }, [theme]);
 
   useEffect(() => {
     // Another window changed the theme; each window has its own query cache.
-    const unlisten = listen<ThemePref>('settings://theme-changed', (e) =>
+    const unlisten = listen<ThemePref>("settings://theme-changed", (e) =>
       queryClient.setQueryData(THEME_QUERY_KEY, e.payload),
     );
 

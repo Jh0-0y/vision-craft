@@ -1,25 +1,30 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect } from "react";
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from "@tanstack/react-query";
 
-import type { LocalePref } from '@/domain/settings/apis/settings.dto';
-import { LOCALE_QUERY_KEY, useLocalePref } from '@/domain/settings/queries/settings';
-import { type Dict, type Locale, dicts, resolveLocale } from '@/shared/i18n';
+import type { LocalePref } from "@/domain/settings/apis/settings.dto";
+import {
+  LOCALE_QUERY_KEY,
+  useLocalePref,
+} from "@/domain/settings/queries/settings";
+import { type Dict, type Locale, dicts, resolveLocale } from "@/shared/i18n";
 
-import { listen } from '@tauri-apps/api/event';
+import { listen } from "@tauri-apps/api/event";
 
 interface I18n {
   locale: Locale;
   t: Dict;
 }
 
-const I18nContext = createContext<I18n>({ locale: 'en', t: dicts.en });
+const I18nContext = createContext<I18n>({ locale: "en", t: dicts.en });
 
 export function useI18n() {
   return useContext(I18nContext);
 }
 
-export default function I18nProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function I18nProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // hooks
   const queryClient = useQueryClient();
 
@@ -35,7 +40,7 @@ export default function I18nProvider({ children }: Readonly<{ children: React.Re
 
   useEffect(() => {
     // Another window changed the language; each window has its own query cache.
-    const unlisten = listen<LocalePref>('settings://locale-changed', (e) =>
+    const unlisten = listen<LocalePref>("settings://locale-changed", (e) =>
       queryClient.setQueryData(LOCALE_QUERY_KEY, e.payload),
     );
 
@@ -44,5 +49,9 @@ export default function I18nProvider({ children }: Readonly<{ children: React.Re
     };
   }, [queryClient]);
 
-  return <I18nContext.Provider value={{ locale, t: dicts[locale] }}>{children}</I18nContext.Provider>;
+  return (
+    <I18nContext.Provider value={{ locale, t: dicts[locale] }}>
+      {children}
+    </I18nContext.Provider>
+  );
 }

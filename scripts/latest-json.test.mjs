@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { buildManifest } from "./latest-json.mjs";
 
 const now = new Date("2026-10-07T00:00:00Z");
-const base = "https://github.com/Jh0-0y/tootti-visioncraft/releases/download/v0.2.0";
+const base =
+  "https://github.com/Jh0-0y/tootti-visioncraft/releases/download/v0.2.0";
 
 test("builds both platform entries from their .sig assets", () => {
   const manifest = buildManifest(
@@ -18,28 +19,52 @@ test("builds both platform entries from their .sig assets", () => {
     version: "0.2.0",
     pub_date: "2026-10-07T00:00:00.000Z",
     platforms: {
-      "darwin-aarch64": { signature: "mac-sig", url: `${base}/App_0.2.0_aarch64.app.tar.gz` },
-      "windows-x86_64": { signature: "win-sig", url: `${base}/App_0.2.0_x64-setup.exe` },
+      "darwin-aarch64": {
+        signature: "mac-sig",
+        url: `${base}/App_0.2.0_aarch64.app.tar.gz`,
+      },
+      "windows-x86_64": {
+        signature: "win-sig",
+        url: `${base}/App_0.2.0_x64-setup.exe`,
+      },
     },
   });
 });
 
 test("includes only the platforms that were uploaded", () => {
-  const manifest = buildManifest("v0.2.0", [{ name: "App_0.2.0_x64-setup.exe.sig", body: "win-sig" }], now);
+  const manifest = buildManifest(
+    "v0.2.0",
+    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "win-sig" }],
+    now,
+  );
   assert.deepEqual(Object.keys(manifest.platforms), ["windows-x86_64"]);
 });
 
 test("ignores assets that are not updater signatures", () => {
-  const manifest = buildManifest("v0.2.0", [{ name: "App_0.2.0_aarch64.dmg.sig", body: "x" }], now);
+  const manifest = buildManifest(
+    "v0.2.0",
+    [{ name: "App_0.2.0_aarch64.dmg.sig", body: "x" }],
+    now,
+  );
   assert.deepEqual(manifest.platforms, {});
 });
 
 test("carries the release body as notes", () => {
-  const m = buildManifest("v0.2.0", [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }], now, "## 변경 사항\n- a\n");
+  const m = buildManifest(
+    "v0.2.0",
+    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }],
+    now,
+    "## 변경 사항\n- a\n",
+  );
   assert.equal(m.notes, "## 변경 사항\n- a");
 });
 
 test("omits notes when the body is blank", () => {
-  const m = buildManifest("v0.2.0", [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }], now, "  \n");
+  const m = buildManifest(
+    "v0.2.0",
+    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }],
+    now,
+    "  \n",
+  );
   assert.equal("notes" in m, false);
 });
