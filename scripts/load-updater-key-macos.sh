@@ -5,7 +5,7 @@
 
 kc() { security find-generic-password -a "$USER" -s "$1" -w; }
 
-APP_NAME=template-rust-app # keychain service prefix; rename per app (README)
+APP_NAME=visioncraft # keychain service prefix; rename per app (README)
 # Assign before export: `export X="$(kc …)"` would hide a failed lookup from set -e.
 TAURI_SIGNING_PRIVATE_KEY=$(kc "tauri-updater-$APP_NAME")
 TAURI_SIGNING_PRIVATE_KEY_PASSWORD=$(kc "tauri-updater-$APP_NAME-pw")

@@ -20,7 +20,7 @@ yarn tauri build
 if ($LASTEXITCODE) { throw "tauri build failed" }
 
 # Exact name: old versions' installers stay in target/ after a version bump. Get-Item throws if missing.
-$setup = Get-Item "src-tauri/target/release/bundle/nsis/App_${version}_x64-setup.exe"
+$setup = Get-Item "src-tauri/target/release/bundle/nsis/VisionCraft_${version}_x64-setup.exe"
 $sig = Get-Item "$($setup.FullName).sig"
 
 gh release view $tag -R $repo *> $null

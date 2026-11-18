@@ -5,7 +5,7 @@
 # stores them (cmdkey can't, its /pass is too short for the key).
 param([switch]$Save)
 
-$AppName = "template-rust-app" # credential name prefix; rename per app (README)
+$AppName = "visioncraft" # credential name prefix; rename per app (README)
 
 if (-not ("AppCredential" -as [type])) {
   Add-Type @'
