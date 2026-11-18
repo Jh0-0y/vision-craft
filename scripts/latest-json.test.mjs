@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { buildManifest } from "./latest-json.mjs";
 
 const now = new Date("2026-10-07T00:00:00Z");
-const base = "https://github.com/bob-park/template-rust-app/releases/download/v0.2.0";
+const base = "https://github.com/Jh0-0y/tootti-visioncraft/releases/download/v0.2.0";
 
 test("builds both platform entries from their .sig assets", () => {
   const manifest = buildManifest(

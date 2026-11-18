@@ -8,7 +8,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const REPO = "bob-park/template-rust-app";
+const REPO = "Jh0-0y/tootti-visioncraft";
 // 업데이터는 나열된 플랫폼 블록이 모두 완전해야 파일 전체를 받아들인다 — 있는 것만 넣는다.
 const PLATFORMS = [
   { suffix: ".app.tar.gz.sig", key: "darwin-aarch64" },
@@ -47,7 +47,7 @@ if (isMain) {
   // 공개키가 비어 있으면 그 빌드는 업데이트를 검증하지 못한다 — 받은 뒤에야 실패하므로 여기서 막는다.
   const conf = JSON.parse(readFileSync(new URL("../src-tauri/tauri.conf.json", import.meta.url), "utf8"));
   if (!conf.plugins?.updater?.pubkey) {
-    console.error("src-tauri/tauri.conf.json: plugins.updater.pubkey is empty — fill it before releasing (see docs/release.md)");
+    console.error("src-tauri/tauri.conf.json: plugins.updater.pubkey is empty — fill it before releasing (generate a key pair with `yarn tauri signer generate`)");
     process.exit(1);
   }
   const dir = mkdtempSync(join(tmpdir(), "app-sig-"));
