@@ -36,7 +36,7 @@ yarn dotenv -e .env.development.local -- yarn tauri dev
 
 ## 새 앱으로 만들 때 바꿀 것
 
-자리표시자 이름은 `App` / `com.bobpark.app` / `template-rust-app` / `bob-park/template-rust-app`이다.
+자리표시자 이름은 `App` / `com.ooy.app` / `template-rust-app` / `bob-park/template-rust-app`이다.
 
 - [ ] `package.json`: `name`
 - [ ] `src-tauri/Cargo.toml`: `[package] name`, `[lib] name` (`template_rust_app_lib`)

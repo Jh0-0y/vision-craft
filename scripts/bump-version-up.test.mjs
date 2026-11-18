@@ -12,7 +12,7 @@ function fixture(version, crate = "template-rust-app") {
   const dir = mkdtempSync(join(tmpdir(), "bump-"));
   mkdirSync(join(dir, "src-tauri"));
   copyFileSync(SCRIPT, join(dir, "bump-version-up.sh"));
-  writeFileSync(join(dir, "src-tauri/tauri.conf.json"), `{\n  "productName": "App",\n  "version": "${version}",\n  "identifier": "com.bobpark.app"\n}\n`);
+  writeFileSync(join(dir, "src-tauri/tauri.conf.json"), `{\n  "productName": "App",\n  "version": "${version}",\n  "identifier": "com.ooy.app"\n}\n`);
   writeFileSync(join(dir, "package.json"), `{\n  "name": "template-rust-app",\n  "version": "${version}",\n  "dependencies": {\n    "react": "^19.3.0"\n  }\n}\n`);
   writeFileSync(join(dir, "src-tauri/Cargo.toml"), `[package]\nname = "template-rust-app"\nversion = "${version}"\nedition = "2024"\n\n[dependencies]\nserde = { version = "1", features = ["derive"] }\n`);
   writeFileSync(join(dir, "src-tauri/Cargo.lock"), `[[package]]\nname = "serde"\nversion = "1.0.0"\n\n[[package]]\nname = "${crate}"\nversion = "${version}"\ndependencies = [\n "serde",\n]\n`);
