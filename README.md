@@ -87,3 +87,7 @@ scripts/                릴리스와 버전 스크립트, 그 테스트
 - [`scripts/release-macos.sh`](scripts/release-macos.sh): Apple Silicon용으로 빌드하고, 서명·공증한 뒤 GitHub 초안 릴리스에 올린다.
 - [`scripts/release-windows.ps1`](scripts/release-windows.ps1): Windows 설치 파일을 빌드해 같은 릴리스에 올린다.
 - [`scripts/latest-json.mjs`](scripts/latest-json.mjs): 릴리스에 올라온 서명 파일로 `latest.json`을 만들어 올린다.
+
+## 프로젝트 지침
+
+코드 규칙과 작업 방법은 [AGENTS.md](AGENTS.md)에서 시작한다.
