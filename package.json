@@ -22,8 +22,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@bob-park/eslint-config-bobpark": "0.3.0-RC4-20260630",
-    "@bob-park/prettier-config-bobpark": "0.4.0-RC4-20260630",
+    "@eslint/js": "^9",
     "@tailwindcss/vite": "^4",
     "@tanstack/react-query-devtools": "^5",
     "@tauri-apps/cli": "^2.12.1",
@@ -34,11 +33,12 @@
     "daisyui": "^5.7.50",
     "dotenv-cli": "^11.1.0",
     "eslint": "^9",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "prettier": "^3",
     "tailwindcss": "^4",
     "typescript": "^6",
+    "typescript-eslint": "^8.73.0",
     "vite": "^8"
   },
-  "prettier": "@bob-park/prettier-config-bobpark",
   "packageManager": "yarn@4.18.1"
 }

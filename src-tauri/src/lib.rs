@@ -25,8 +25,8 @@ pub fn run() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .manage(app::updater::UpdateState::default())
         .setup(|app| {
-            // ponytail: a DB open failure aborts setup; add an error dialog (tauri-plugin-dialog,
-            // as in vee-app) once real user data is at stake.
+            // A DB open failure aborts setup; add an error dialog (tauri-plugin-dialog)
+            // once real user data is at stake.
             let conn = shared::db::open(&app.path().app_data_dir()?.join("app.db"))?;
             app.manage(AppState {
                 db: Mutex::new(conn),
