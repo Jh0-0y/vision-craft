@@ -8,7 +8,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const REPO = "bob-park/template-rust-app";
+const REPO = "Jh0-0y/vision-craft";
 // 업데이터는 나열된 플랫폼 블록이 모두 완전해야 파일 전체를 받아들인다 — 있는 것만 넣는다.
 const PLATFORMS = [
   { suffix: ".app.tar.gz.sig", key: "darwin-aarch64" },
@@ -34,10 +34,17 @@ export function buildManifest(tag, sigs, now = new Date(), notes = "") {
     };
   }
   const body = notes.trim();
-  return { version: tag.replace(/^v/, ""), ...(body && { notes: body }), pub_date: now.toISOString(), platforms };
+  return {
+    version: tag.replace(/^v/, ""),
+    ...(body && { notes: body }),
+    pub_date: now.toISOString(),
+    platforms,
+  };
 }
 
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+const isMain =
+  process.argv[1] &&
+  fileURLToPath(import.meta.url) === resolve(process.argv[1]);
 if (isMain) {
   const tag = process.argv[2];
   if (!tag) {
@@ -45,16 +52,37 @@ if (isMain) {
     process.exit(1);
   }
   // 공개키가 비어 있으면 그 빌드는 업데이트를 검증하지 못한다 — 받은 뒤에야 실패하므로 여기서 막는다.
-  const conf = JSON.parse(readFileSync(new URL("../src-tauri/tauri.conf.json", import.meta.url), "utf8"));
+  const conf = JSON.parse(
+    readFileSync(
+      new URL("../src-tauri/tauri.conf.json", import.meta.url),
+      "utf8",
+    ),
+  );
   if (!conf.plugins?.updater?.pubkey) {
-    console.error("src-tauri/tauri.conf.json: plugins.updater.pubkey is empty — fill it before releasing (see docs/release.md)");
+    console.error(
+      "src-tauri/tauri.conf.json: plugins.updater.pubkey is empty — fill it before releasing (generate a key pair with `yarn tauri signer generate`)",
+    );
     process.exit(1);
   }
   const dir = mkdtempSync(join(tmpdir(), "app-sig-"));
-  execFileSync("gh", ["release", "download", tag, "-R", REPO, "-p", "*.sig", "-D", dir], { stdio: "inherit" });
-  const sigs = readdirSync(dir).map((name) => ({ name, body: readFileSync(join(dir, name), "utf8") }));
-  const notes = execFileSync("gh", ["release", "view", tag, "-R", REPO, "--json", "body", "-q", ".body"], { encoding: "utf8" });
-  if (!notes.trim()) console.warn(`warning: release ${tag} has an empty body — no what's new notes`);
+  execFileSync(
+    "gh",
+    ["release", "download", tag, "-R", REPO, "-p", "*.sig", "-D", dir],
+    { stdio: "inherit" },
+  );
+  const sigs = readdirSync(dir).map((name) => ({
+    name,
+    body: readFileSync(join(dir, name), "utf8"),
+  }));
+  const notes = execFileSync(
+    "gh",
+    ["release", "view", tag, "-R", REPO, "--json", "body", "-q", ".body"],
+    { encoding: "utf8" },
+  );
+  if (!notes.trim())
+    console.warn(
+      `warning: release ${tag} has an empty body — no what's new notes`,
+    );
   const manifest = buildManifest(tag, sigs, new Date(), notes);
   const found = Object.keys(manifest.platforms);
   if (found.length === 0) {
@@ -63,6 +91,8 @@ if (isMain) {
   }
   const out = join(dir, "latest.json");
   writeFileSync(out, JSON.stringify(manifest, null, 2) + "\n");
-  execFileSync("gh", ["release", "upload", tag, "-R", REPO, out, "--clobber"], { stdio: "inherit" });
+  execFileSync("gh", ["release", "upload", tag, "-R", REPO, out, "--clobber"], {
+    stdio: "inherit",
+  });
   console.log(`latest.json uploaded to ${tag}: ${found.join(", ")}`);
 }

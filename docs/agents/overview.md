@@ -1,37 +1,29 @@
 ---
-title: Project Overview
-scope: "**"
-applies_to: onboarding, deciding whether a change fits the template
-related:
-  - ./tech-stack.md
-  - ./architecture.md
-  - ./structure.md
+title: 개요
+description: 프로젝트 소개와 기술 버전. 처음 시작할 때, 버전을 확인할 때
 ---
 
-# Project Overview
+# 개요
 
-> Tauri 2 desktop-app template (Rust + React). It ships a runnable skeleton — main window, settings window, tray, SQLite, auto-update, i18n — plus release/versioning scripts. New apps are built by adding domains on top of it.
+VisionCraft 데스크탑 앱. 지금은 Tauri 2와 React로 된 시작 틀이고, 메인 창에 hello 화면 하나가 뜬다.
 
-## What it is
+## 데스크탑 앱
 
-- A **template repository**: clone it, rename the placeholders (README → "새 앱으로 만들 때 바꿀 것"), then build features.
-- The skeleton is intentionally minimal but complete end to end. Every layer has one working example to copy:
-  - frontend → command → domain → SQLite: `settings` (greeting, theme, language, auto-update)
-  - app shell: window lifecycle, app menu, tray, updater, launch at login
-  - release: `scripts/release-macos.sh`, `scripts/release-windows.ps1`, `scripts/latest-json.mjs`
-  - versioning: `bump-version-up.sh` + `.github/workflows/bump-version.yml`
+| 구분 | 무엇 | 버전 |
+|---|---|---|
+| 앱 틀 | Tauri | 2.12 |
+| 화면 | React | 19.3 |
+| 언어(화면) | TypeScript | 6.0 |
+| 번들러 | Vite | 8.3 |
+| 언어(앱) | Rust | 1.100 (edition 2024) |
+| 런타임·패키지 | Node, yarn | 26, 4.18.1 |
+| 로컬 DB | SQLite (rusqlite) | 0.40 |
+| 지원 OS | macOS(Apple Silicon), Windows(x64) | 릴리스 스크립트 기준 |
 
-## What it is not
+도구 버전은 `mise.toml`이 정한다.
 
-- Not a component library. UI pieces exist only where the skeleton needs them (`src/shared/components/settings/*`).
-- No HTTP backend. The "backend" is the Rust side of the same app, reached through Tauri commands.
-- No CI build. Releases are built, signed and uploaded from personal machines ([release](./workflow/release.md)).
+주요 라이브러리: [Tauri](lib/tauri.md), [React Query](lib/react-query.md), [zustand](lib/zustand.md), [rusqlite](lib/rusqlite.md), [Vite](lib/vite.md), [TypeScript](lib/typescript.md), [ESLint](lib/eslint.md), [Prettier](lib/prettier.md)
 
-## Platforms
+## 그 밖의 영역
 
-- macOS: Apple Silicon only, Developer ID signed and notarized (App Store Connect API key).
-- Windows: x64 (NSIS installer). No code signing; only the updater `.sig`.
-
-## Placeholder names
-
-`App` (productName) · `com.bobpark.app` (identifier) · `template-rust-app` / `template_rust_app_lib` (crate) · `bob-park/template-rust-app` (repo). The full rename checklist is in [README.md](../../README.md).
+미정

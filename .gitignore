@@ -21,9 +21,3 @@ src-tauri/gen/
 # AI / agent local workspaces
 # .claude/ is ignored wholesale; narrow to .claude/settings.local.json to commit shared settings or skills
 .claude/
-.superpowers/
-.taste-skill/
-.gstack/
-.context/
-.playwright-mcp/
-.ui-test-results/

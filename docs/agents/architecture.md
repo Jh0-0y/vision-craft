@@ -1,72 +1,28 @@
 ---
-title: Architecture
-scope: "**"
-applies_to: deciding where code belongs, tracing a request, touching app lifecycle
-related:
-  - ./structure.md
-  - ./conventions/rust-modules.md
-  - ./conventions/tauri-commands.md
-  - ./libs/react-query.md
+title: 아키텍처
+description: 프로젝트 전체 구조. 전체 구조를 알아야 할 때
 ---
 
-# Architecture
+# 아키텍처
 
-> One process, two halves: a React SPA (one bundle, one screen per window label) and Rust. The frontend reaches Rust only through `call()` → `#[tauri::command]`. Front and back are split into **domains with the same name** on both sides.
-
-## Request path
+## 데스크탑 앱
 
 ```
-component
-  → queries/<domain>.tsx        React Query hook (cache, loading, invalidation)
-  → apis/<domain>.ts            typed function per command
-  → shared/api  call<T>()       the only `invoke` caller; rejects with AppError
-  ⇢ IPC
-  → domain/<name>/commands.rs   #[tauri::command], thin: lock state, call domain API
-  → domain/<name>/mod.rs        public domain API: validation + rules
-  → domain/<name>/repository.rs SQL for this domain's tables
-  → shared/db.rs                Connection (opened + migrated at startup)
+React 화면 (src/)
+  └─ call("명령", 인자)  ── Tauri invoke ──▶  Rust 명령 (src-tauri/src/domain/<이름>/commands.rs)
+                                               └─ 도메인 로직 (domain/<이름>/mod.rs)
+                                                    └─ SQL (domain/<이름>/repository.rs) ─▶ SQLite app.db
+  ◀─ 이벤트 (<영역>://<이름>) ── app.emit ───  Rust
 ```
 
-Errors travel back as `AppError` → `{ code, message }` ([error-handling](./conventions/error-handling.md)).
+- 화면은 Rust 명령으로만 데이터를 읽고 쓴다. 화면에는 시스템 권한(`core:default` 밖)을 열지 않는다.
+- Rust는 두 층이다. `app/`은 앱 껍데기(창, 트레이, macOS 메뉴, 자동 실행, 자동 업데이트, 공유 상태)이고 도메인이 아니다. `domain/<이름>/`은 기능이다. 공용 기반은 `shared/`(DB, 오류)다.
+- 프런트도 같은 이름으로 나눈다: `src/domain/<이름>/`이 Rust의 `domain/<이름>/`과 짝이다.
+- 창은 `main`과 `settings` 두 개가 `tauri.conf.json`에 있다. 두 창 모두 같은 화면(`src/app/App.tsx`)을 그린다. 창마다 JS 실행 환경이 따로라, 창 사이 상태는 Rust 이벤트로 맞춘다([events](conventions/events.md)).
+- 창을 닫으면 숨기고 트레이에 남는다. 앱은 하나만 뜬다(두 번째 실행은 기존 창을 앞으로).
+- 앱 데이터는 OS의 앱 데이터 폴더(식별자 `com.ooy.app` 기준)의 `app.db`에 있다.
+- 자동 업데이트는 GitHub Releases의 `latest.json`을 확인한다([versioning](version/versioning.md)).
 
-## Rust layers
+## 그 밖의 영역
 
-| Layer | Path | May import `tauri`? |
-| ----- | ---- | ------------------- |
-| Assembly | `lib.rs` | yes — plugins, setup, `generate_handler!` only |
-| App shell | `app/` (state, window, menu, tray, updater, autostart, i18n) | yes |
-| Domain adapters | `domain/<name>/commands.rs` | yes |
-| Domain core | `domain/<name>/{mod,model,repository}.rs` | **no** |
-| Infrastructure | `shared/` (db, error, migrations) | **no** |
-
-Dependencies point one way: `commands → domain core → shared`. The app shell may call a domain's public API (e.g. `updater` reads `settings::auto_update`).
-
-## State
-
-- `AppState { db: Mutex<Connection> }` (`app/state.rs`) — one connection, locked per command.
-- `UpdateState` (`app/updater.rs`) — update status and the downloaded bundle, in memory.
-- Each **window is a separate JS context**: React Query caches and Zustand stores are per window. Cross-window changes are broadcast as Tauri events ([react-query](./libs/react-query.md#multiple-windows)).
-
-## Startup (`lib.rs` → `setup`)
-
-1. Plugins: single-instance (must be first; a second launch calls `show_main`), log, autostart, updater.
-2. Open + migrate `app.db` in the app data dir → `manage(AppState)`.
-3. macOS app menu (needs `AppState` for its localized labels — keep it after `manage`).
-4. Build windows. They are `create: false` in `tauri.conf.json` so no webview can call a command before state exists.
-5. Tray, then the periodic updater thread.
-
-## Windows
-
-| Label | Screen | Opened by |
-| ----- | ------ | --------- |
-| `main` | `src/app/App.tsx` | launch, tray "Open", Dock click (`RunEvent::Reopen`), second launch |
-| `settings` | `src/app/settings/SettingsApp.tsx` | `Cmd+,` app menu (macOS), `Ctrl+,` keydown (`useSettingsShortcut`), tray "Settings" |
-
-Closing any window **hides** it (`window::hide_on_close`); the app lives in the tray until "Quit". `show_settings` emits `settings://opened` so the page resets to its first tab.
-
-## Updater
-
-- Release builds only: checks GitHub Releases `latest.json` at startup and every 6 h while `settings.auto_update` is on.
-- Downloads in the background; installs only when the user picks "Restart to Update" (tray or Settings → Updates).
-- A ready update is still re-checked (periodically and right before install); a newer release replaces the download, so one restart always lands on the latest version.
-- Status changes emit `update://status` and rebuild the tray menu.
+미정

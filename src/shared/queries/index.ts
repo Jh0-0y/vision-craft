@@ -1,4 +1,4 @@
-import type { AppError } from '@/shared/api/common.dto';
+import type { AppError } from "@/shared/api/common.dto";
 
 interface QueryMutationHandle<T> {
   onSuccess?: (data: T) => void;

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import call from '@/shared/api';
+import call from "@/shared/api";
 
 /**
  * Ctrl+, (Cmd+,) opens the settings window. On macOS the app menu accelerator handles it
@@ -10,14 +10,14 @@ export default function useSettingsShortcut() {
   // useEffect
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === ',') {
+      if ((e.ctrlKey || e.metaKey) && e.key === ",") {
         e.preventDefault();
-        void call('open_settings');
+        void call("open_settings");
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 }

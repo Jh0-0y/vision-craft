@@ -1,7 +1,7 @@
-import type { ErrorState } from '@/shared/store/error/error.state';
-import type { BoundState } from '@/shared/store/rootStore';
+import type { ErrorState } from "@/shared/store/error/error.state";
+import type { BoundState } from "@/shared/store/rootStore";
 
-import type { SlicePattern } from 'zustand';
+import type { SlicePattern } from "zustand";
 
 const createErrorSlice: SlicePattern<ErrorState, BoundState> = (set) => ({
   error: undefined,
@@ -11,7 +11,7 @@ const createErrorSlice: SlicePattern<ErrorState, BoundState> = (set) => ({
         state.error = error;
       },
       false,
-      'error/showError',
+      "error/showError",
     ),
   dismissError: () =>
     set(
@@ -19,7 +19,7 @@ const createErrorSlice: SlicePattern<ErrorState, BoundState> = (set) => ({
         state.error = undefined;
       },
       false,
-      'error/dismissError',
+      "error/dismissError",
     ),
 });
 

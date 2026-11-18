@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   getAutoUpdate,
@@ -10,17 +10,20 @@ import {
   setAutostart,
   setLocale,
   setTheme,
-} from '@/domain/settings/apis/settings';
-import type { LocalePref, ThemePref } from '@/domain/settings/apis/settings.dto';
-import type { AppError } from '@/shared/api/common.dto';
-import type { QueryMutationHandle } from '@/shared/queries';
+} from "@/domain/settings/apis/settings";
+import type {
+  LocalePref,
+  ThemePref,
+} from "@/domain/settings/apis/settings.dto";
+import type { AppError } from "@/shared/api/common.dto";
+import type { QueryMutationHandle } from "@/shared/queries";
 
-export const THEME_QUERY_KEY = ['settings', 'theme'];
-export const LOCALE_QUERY_KEY = ['settings', 'locale'];
+export const THEME_QUERY_KEY = ["settings", "theme"];
+export const LOCALE_QUERY_KEY = ["settings", "locale"];
 
 export function useGreeting() {
   const { data, isLoading } = useQuery<string>({
-    queryKey: ['settings', 'greeting'],
+    queryKey: ["settings", "greeting"],
     queryFn: getGreeting,
   });
 
@@ -33,14 +36,17 @@ export function useThemePref() {
     queryFn: getTheme,
   });
 
-  return { theme: data ?? 'system', isLoading };
+  return { theme: data ?? "system", isLoading };
 }
 
-export function useThemeUpdate({ onSuccess, onError }: QueryMutationHandle<ThemePref> = {}) {
+export function useThemeUpdate({
+  onSuccess,
+  onError,
+}: QueryMutationHandle<ThemePref> = {}) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation<ThemePref, AppError, ThemePref>({
-    mutationKey: ['settings', 'theme', 'update'],
+    mutationKey: ["settings", "theme", "update"],
     mutationFn: setTheme,
     onSuccess: (data) => {
       queryClient.setQueryData(THEME_QUERY_KEY, data);
@@ -57,21 +63,24 @@ export function useThemeUpdate({ onSuccess, onError }: QueryMutationHandle<Theme
 
 export function useAutoUpdate() {
   const { data, isLoading } = useQuery<boolean>({
-    queryKey: ['settings', 'autoUpdate'],
+    queryKey: ["settings", "autoUpdate"],
     queryFn: getAutoUpdate,
   });
 
   return { autoUpdate: data ?? true, isLoading };
 }
 
-export function useAutoUpdateUpdate({ onSuccess, onError }: QueryMutationHandle<boolean> = {}) {
+export function useAutoUpdateUpdate({
+  onSuccess,
+  onError,
+}: QueryMutationHandle<boolean> = {}) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation<boolean, AppError, boolean>({
-    mutationKey: ['settings', 'autoUpdate', 'update'],
+    mutationKey: ["settings", "autoUpdate", "update"],
     mutationFn: setAutoUpdate,
     onSuccess: (data) => {
-      queryClient.setQueryData(['settings', 'autoUpdate'], data);
+      queryClient.setQueryData(["settings", "autoUpdate"], data);
 
       onSuccess?.(data);
     },
@@ -89,14 +98,17 @@ export function useLocalePref() {
     queryFn: getLocale,
   });
 
-  return { locale: data ?? 'system', isLoading };
+  return { locale: data ?? "system", isLoading };
 }
 
-export function useLocaleUpdate({ onSuccess, onError }: QueryMutationHandle<LocalePref> = {}) {
+export function useLocaleUpdate({
+  onSuccess,
+  onError,
+}: QueryMutationHandle<LocalePref> = {}) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation<LocalePref, AppError, LocalePref>({
-    mutationKey: ['settings', 'locale', 'update'],
+    mutationKey: ["settings", "locale", "update"],
     mutationFn: setLocale,
     onSuccess: (data) => {
       queryClient.setQueryData(LOCALE_QUERY_KEY, data);
@@ -113,21 +125,24 @@ export function useLocaleUpdate({ onSuccess, onError }: QueryMutationHandle<Loca
 
 export function useAutostart() {
   const { data, isLoading } = useQuery<boolean>({
-    queryKey: ['settings', 'autostart'],
+    queryKey: ["settings", "autostart"],
     queryFn: getAutostart,
   });
 
   return { autostart: data ?? false, isLoading };
 }
 
-export function useAutostartUpdate({ onSuccess, onError }: QueryMutationHandle<boolean> = {}) {
+export function useAutostartUpdate({
+  onSuccess,
+  onError,
+}: QueryMutationHandle<boolean> = {}) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation<boolean, AppError, boolean>({
-    mutationKey: ['settings', 'autostart', 'update'],
+    mutationKey: ["settings", "autostart", "update"],
     mutationFn: setAutostart,
     onSuccess: (data) => {
-      queryClient.setQueryData(['settings', 'autostart'], data);
+      queryClient.setQueryData(["settings", "autostart"], data);
 
       onSuccess?.(data);
     },
