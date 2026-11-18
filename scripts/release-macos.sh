@@ -27,7 +27,7 @@ APPLE_API_KEY_PATH="$HOME/.config/apple/AuthKey_${APPLE_API_KEY}.p8"
 [ -f "$APPLE_API_KEY_PATH" ] || { echo "missing $APPLE_API_KEY_PATH" >&2; exit 1; }
 export APPLE_API_KEY APPLE_API_ISSUER APPLE_API_KEY_PATH
 
-REPO="Jh0-0y/tootti-visioncraft"
+REPO="Jh0-0y/vision-craft"
 VERSION=$(node -p 'require("./src-tauri/tauri.conf.json").version')
 TAG="v$VERSION"
 

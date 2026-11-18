@@ -7,7 +7,7 @@ Set-Location (Join-Path $PSScriptRoot "..")
 
 . scripts/load-updater-key-windows.ps1 # TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)
 
-$repo = "Jh0-0y/tootti-visioncraft"
+$repo = "Jh0-0y/vision-craft"
 $version = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
 $tag = "v$version"
 

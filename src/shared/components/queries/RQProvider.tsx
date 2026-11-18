@@ -10,7 +10,7 @@ import { useStore } from "@/shared/store/rootStore";
 
 // One client per window: each Tauri window is its own JS context.
 export const queryClient = new QueryClient({
-  // Every failed mutation (a setting that didn't save, …) is shown by ErrorAlert.
+  // Every failed mutation (a setting that didn't save, …) goes to the error slice; no screen shows it yet.
   mutationCache: new MutationCache({
     onError: (error) =>
       useStore.getState().showError(error as unknown as AppError),

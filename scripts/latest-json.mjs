@@ -8,7 +8,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const REPO = "Jh0-0y/tootti-visioncraft";
+const REPO = "Jh0-0y/vision-craft";
 // 업데이터는 나열된 플랫폼 블록이 모두 완전해야 파일 전체를 받아들인다 — 있는 것만 넣는다.
 const PLATFORMS = [
   { suffix: ".app.tar.gz.sig", key: "darwin-aarch64" },
