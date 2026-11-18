@@ -9,8 +9,8 @@ test("builds both platform entries from their .sig assets", () => {
   const manifest = buildManifest(
     "v0.2.0",
     [
-      { name: "App_0.2.0_aarch64.app.tar.gz.sig", body: "mac-sig\n" },
-      { name: "App_0.2.0_x64-setup.exe.sig", body: "win-sig\n" },
+      { name: "VisionCraft_0.2.0_aarch64.app.tar.gz.sig", body: "mac-sig\n" },
+      { name: "VisionCraft_0.2.0_x64-setup.exe.sig", body: "win-sig\n" },
     ],
     now,
   );
@@ -20,11 +20,11 @@ test("builds both platform entries from their .sig assets", () => {
     platforms: {
       "darwin-aarch64": {
         signature: "mac-sig",
-        url: `${base}/App_0.2.0_aarch64.app.tar.gz`,
+        url: `${base}/VisionCraft_0.2.0_aarch64.app.tar.gz`,
       },
       "windows-x86_64": {
         signature: "win-sig",
-        url: `${base}/App_0.2.0_x64-setup.exe`,
+        url: `${base}/VisionCraft_0.2.0_x64-setup.exe`,
       },
     },
   });
@@ -33,7 +33,7 @@ test("builds both platform entries from their .sig assets", () => {
 test("includes only the platforms that were uploaded", () => {
   const manifest = buildManifest(
     "v0.2.0",
-    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "win-sig" }],
+    [{ name: "VisionCraft_0.2.0_x64-setup.exe.sig", body: "win-sig" }],
     now,
   );
   assert.deepEqual(Object.keys(manifest.platforms), ["windows-x86_64"]);
@@ -42,7 +42,7 @@ test("includes only the platforms that were uploaded", () => {
 test("ignores assets that are not updater signatures", () => {
   const manifest = buildManifest(
     "v0.2.0",
-    [{ name: "App_0.2.0_aarch64.dmg.sig", body: "x" }],
+    [{ name: "VisionCraft_0.2.0_aarch64.dmg.sig", body: "x" }],
     now,
   );
   assert.deepEqual(manifest.platforms, {});
@@ -51,7 +51,7 @@ test("ignores assets that are not updater signatures", () => {
 test("carries the release body as notes", () => {
   const m = buildManifest(
     "v0.2.0",
-    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }],
+    [{ name: "VisionCraft_0.2.0_x64-setup.exe.sig", body: "s" }],
     now,
     "## 변경 사항\n- a\n",
   );
@@ -61,7 +61,7 @@ test("carries the release body as notes", () => {
 test("omits notes when the body is blank", () => {
   const m = buildManifest(
     "v0.2.0",
-    [{ name: "App_0.2.0_x64-setup.exe.sig", body: "s" }],
+    [{ name: "VisionCraft_0.2.0_x64-setup.exe.sig", body: "s" }],
     now,
     "  \n",
   );

@@ -46,7 +46,7 @@ yarn tauri build --bundles app,dmg --target aarch64-apple-darwin
 
 bundle="src-tauri/target/aarch64-apple-darwin/release/bundle"
 # Exact names: old versions' bundles stay in target/ after a version bump.
-dmg="$bundle/dmg/App_${VERSION}_aarch64.dmg"
+dmg="$bundle/dmg/VisionCraft_${VERSION}_aarch64.dmg"
 [ -f "$dmg" ] || { echo "missing $dmg" >&2; exit 1; }
 
 # Tauri notarizes only the .app; notarize and staple the dmg too so Gatekeeper accepts it.
@@ -66,10 +66,10 @@ gh release view "$TAG" -R "$REPO" >/dev/null 2>&1 \
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
-# The updater bundle is always named App.app.tar.gz; version it for the release.
-tarball="$work/App_${VERSION}_aarch64.app.tar.gz"
-cp "$bundle/macos/App.app.tar.gz" "$tarball"
-cp "$bundle/macos/App.app.tar.gz.sig" "$tarball.sig"
+# The updater bundle is always named <productName>.app.tar.gz (VisionCraft.app.tar.gz); version it for the release.
+tarball="$work/VisionCraft_${VERSION}_aarch64.app.tar.gz"
+cp "$bundle/macos/VisionCraft.app.tar.gz" "$tarball"
+cp "$bundle/macos/VisionCraft.app.tar.gz.sig" "$tarball.sig"
 
 gh release upload "$TAG" -R "$REPO" --clobber "$dmg" "$tarball" "$tarball.sig"
 echo "Draft $TAG updated with the macOS build."

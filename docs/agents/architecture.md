@@ -20,7 +20,7 @@ React 화면 (src/)
 - 프런트도 같은 이름으로 나눈다: `src/domain/<이름>/`이 Rust의 `domain/<이름>/`과 짝이다.
 - 창은 `main`과 `settings` 두 개가 `tauri.conf.json`에 있다. 두 창 모두 `src/app/App.tsx`를 불러오고, 창 이름(`settings`)을 보고 설정 화면 또는 메인 화면을 고른다. 창마다 JS 실행 환경이 따로라, 창 사이 상태는 Rust 이벤트로 맞춘다([events](conventions/events.md)).
 - 창을 닫으면 숨기고 트레이에 남는다. 앱은 하나만 뜬다(두 번째 실행은 기존 창을 앞으로).
-- 앱 데이터는 OS의 앱 데이터 폴더(식별자 `com.ooy.app` 기준)의 `app.db`에 있다.
+- 앱 데이터는 OS의 앱 데이터 폴더(식별자 `com.ooy.visioncraft` 기준)의 `app.db`에 있다.
 - 자동 업데이트는 GitHub Releases의 `latest.json`을 확인한다([versioning](version/versioning.md)).
 
 ## 그 밖의 영역
