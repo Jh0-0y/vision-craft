@@ -25,7 +25,7 @@
 - [lib/vite](docs/agents/lib/vite.md) — Vite 개발 서버와 빌드 설정. 개발 서버나 빌드를 바꿀 때
 - [lib/eslint](docs/agents/lib/eslint.md) — 린트 규칙. 린트를 돌리거나 규칙을 바꿀 때
 - [lib/prettier](docs/agents/lib/prettier.md) — 코드 포맷 규칙. 포맷을 맞추거나 검사할 때
-- [version/branching](docs/agents/version/branching.md) — 브랜치 이름과 흐름. 브랜치를 만들 때
+- [version/branching](docs/agents/version/branching.md) — 브랜치를 따는 곳과 흐름. 브랜치를 만들 때
 - [version/commit-messages](docs/agents/version/commit-messages.md) — 커밋 메시지 모양. 커밋할 때
-- [version/pr](docs/agents/version/pr.md) — PR 제목·본문과 버전 표시. PR을 열 때
+- [version/pr](docs/agents/version/pr.md) — PR 대상 브랜치와 제목·본문. PR을 열 때
 - [version/versioning](docs/agents/version/versioning.md) — 버전 번호와 버전 올리기, 릴리스. 버전을 올리거나 릴리스할 때

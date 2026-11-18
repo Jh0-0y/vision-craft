@@ -19,7 +19,6 @@ description: 빌드·실행·테스트 명령. 명령을 실행할 때
 | 포맷 고치기 | `yarn exec prettier --write .` |
 | Rust 검사 | `cd src-tauri && cargo check` |
 | Rust 테스트 | `cd src-tauri && cargo test` |
-| 버전 올리기 | `./bump-version-up.sh [patch\|minor\|major]` |
 
 - `package.json`의 `prettier` 스크립트는 `src/`만 `--write`한다. 저장소 전체는 위 `yarn exec prettier` 명령을 쓴다.
 - macOS 빌드에는 Xcode Command Line Tools가 필요하다.

@@ -83,7 +83,6 @@ scripts/                릴리스와 버전 스크립트, 그 테스트
 
 릴리스 스크립트가 들어 있지만 아직 정리 전이다. 업데이트 서명용 공개키(`tauri.conf.json`의 `plugins.updater.pubkey`)가 비어 있어 지금 상태로는 자동 업데이트가 동작하지 않는다.
 
-- [`bump-version-up.sh`](bump-version-up.sh): `tauri.conf.json`, `package.json`, `Cargo.toml`, `Cargo.lock`의 버전을 함께 올린다. [`.github/workflows/bump-version.yml`](.github/workflows/bump-version.yml)이 `develop`·`main`에 머지될 때 이 스크립트를 실행한다.
 - [`scripts/release-macos.sh`](scripts/release-macos.sh): Apple Silicon용으로 빌드하고, 서명·공증한 뒤 GitHub 초안 릴리스에 올린다.
 - [`scripts/release-windows.ps1`](scripts/release-windows.ps1): Windows 설치 파일을 빌드해 같은 릴리스에 올린다.
 - [`scripts/latest-json.mjs`](scripts/latest-json.mjs): 릴리스에 올라온 서명 파일로 `latest.json`을 만들어 올린다.

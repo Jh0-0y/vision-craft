@@ -37,7 +37,7 @@ if ! $build_only; then
   shipped=$(gh release view "$TAG" -R "$REPO" --json isDraft,assets \
     -q 'select(.isDraft == false) | .assets[].name | select(endswith("_aarch64.app.tar.gz"))' 2>/dev/null || true)
   if [ -n "$shipped" ]; then
-    echo "$TAG is already published with a macOS build ($shipped). Bump the version first (./bump-version-up.sh)." >&2
+    echo "$TAG is already published with a macOS build ($shipped). Bump the version first." >&2
     exit 1
   fi
 fi
