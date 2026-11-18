@@ -32,7 +32,6 @@ createRoot(document.getElementById("root")!).render(
     <RQProvider>
       <ThemeProvider>
         <I18nProvider>
-          {/* Every window (main, and settings still defined in tauri.conf.json) shows this one screen. */}
           <App />
         </I18nProvider>
       </ThemeProvider>
